@@ -9,13 +9,13 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--clickhouse-url", type=str, default=None, required=True)
 parser.add_argument("--depth", type=int, default=None, required=True)
 parser.add_argument("--wallet-address", type=str, default=None, required=True)
-parser.add_argument("--max-children", type=int, default=None, required=True)
+parser.add_argument("--max-neighbours", type=int, default=None, required=True)
 args = parser.parse_args()
 
 
 # YOUR CODE GOES HERE
 # FOR INSTANCE,
 edges = get_transactions(
-    args.clickhouse_url, args.wallet_address, args.depth, args.max_children
+    args.clickhouse_url, args.wallet_address, args.depth, args.max_neighbours
 )
 draw_graph(edges)

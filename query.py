@@ -3,15 +3,13 @@ import pandas as pd
 
 
 def get_transactions(
-    clickhouse_url: str, wallet_address: str, n_depth: int, max_children: int
+    clickhouse_url: str, wallet_address: str, n_depth: int, max_neighbours: int
 ) -> pd.DataFrame:
     client = Client.from_url(clickhouse_url)
 
     # YOUR CODE GOES HERE
 
     # REWRITE LINES BELOW TO SOLVE THE PROBLEM
-    # INTERPET THE CODE AS AN EXMAPLE OF USAGE
-    # OF CLICKHOUSE DRIVER
     wallet_address = "0xa6fac4a7b509d4d103a6c764b72a177e39a0136e"
     sql_query = f"""
     SELECT 
@@ -22,7 +20,9 @@ def get_transactions(
         from_address = '{wallet_address}' 
     ORDER BY 
         value 
-    LIMIT {max_children}
+    DESC
+    LIMIT 
+        {max_neighbours}
     """
     df = client.query_dataframe(sql_query)
 

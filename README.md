@@ -1,6 +1,6 @@
 # Wallet Transfers Graph Representation
 
-In this project we will use [graphvis](https://graphviz.org/) package for wallet transfers visualization.  
+In this project we will use [graphviz](https://graphviz.org/) package for wallet transfers visualization.  
 
 ## First of all, why?
 
@@ -10,31 +10,51 @@ But some villains and hackers also use these services, for example all of them d
 
 The more data becomes complicated, the more interest it gains. It marked the beginning the fast evolution of on-chain [OSINT](https://en.wikipedia.org/wiki/Open-source_intelligence) technologies. These technologies are being developed in order to investigate financial crimes or represent and parse on-chain data to provide any insights about blockchain ecosystem. That's where we are going to dive a bit to see, what could be a possible solution that could help an OSINT specialist to deal with messy blockchain transactions.
 
+
 ## Let us start
 
 Let's boil it down step by step on-chain data to provide any insights about blockchain ecosystem. That's where we are going to dive a bit to see, what could be a possible solution that could help an OSINT specialist to deal with messy blockchain transactions.
 
-First, let's briefly discuss what we are going to achieve by this project. In general, your perfect solution should be able to visualize a graph of transactions starting from any chosen wallet. So, your program will contain two main blocks:
+## Interface
 
-* **Data selector**
-* **Data visualizer**
+In general, your perfect solution should be able to visualize a graph of transactions starting from any chosen wallet. So, 
+we suggest you to implement the following CLI interface
+```
+python3 main.py \
+--clickhouse-url clickhouse://10.16.68.34:9000/ethereum \
+--wallet-address 0xa6fac4a7b509d4d103a6c764b72a177e39a0136e \
+--depth 2 \
+--max-neighbours 10
+```
+where 
+- `--clickhouse-url` is the url of SQL database we carefully prepared for you to get information from
+- `--wallet-address` is the start wallet which transactions you are going to visualize
+- `--depth` is the number of generations you are going to visualize
+- `--max-neighbours` is the maximum number of neighbours for every vertex. If a vertex has several more that `max-neighbours` neighbours
+then you need to select top `max-neighbours` vertexes with the greatest value of ETH transfered.
 
-### Data selector
+The project is fully executable. Run the command above and the code should render the example of graph for you.
 
-#### Configuration
-- set the **depth** parameter which specifies the amount of levels of child nodes. We will elaborate on that further
-- set the **wallet_address** - an address from which the tracing is intended to start
+## Architecure
 
-#### Tracing process
-- connect to the transaction database
-- select all transactions that represent the information about a graph of transfers of desired depth: retrieve nodes and edges in a suitable for [graphvis](https://graphviz.readthedocs.io/en/stable/manual.html) format and save transfer amounts to label corresponding edges (as we're interested not only in the direction of money but also in amounts)
+Firstly, you need to get the list of transactions to visualize. See [`query.py`](/query.py) for the details. You need to do it
+via running the sql query. We prepared short introductory video (`TODO: ADD LINK`) for your quick start. 
+If you want to run sql queries from Python code it is reasonable to use [clickhouse-driver](https://clickhouse-driver.readthedocs.io/en/latest/) 
+library:
+```
+from clickhouse_driver import Client
+clickhouse_url = "clickhouse://10.16.68.34:9000/ethereum"
+client = Client.from_url(clickhouse_url)
+sql_query = "SELECT * from transactions WHERE block_number = 16000000"
+client.execute(sql_query)
+```
 
-### Visualization
+Then you need to vizualize the graph of extracted transactions. See [`visualize.py`](/visualize.py) for the details. 
+We suggest you to use [graphviz](https://graphviz.org/) for graph visualization. 
 
-#### Configuration 
-- set the **depth** parameter which specifies the amount of levels of child nodes. We will elaborate on that further
-- set the **wallet_address** - an address from which the tracing is intended to start
-
-#### Tracing process
-- connect to the transaction database
-- select all transactions that represent the information about a graph of transfers of desired depth: retrieve nodes and edges in a suitable for [graphvis](https://graphviz.readthedocs.io/en/stable/manual.html) format and save transfer amounts to label corresponding edges (as we're interested not only in the direction of money but also in amounts)
+Note that besides `pip install -r requirements.txt` you will possibly need to install graphvis package via
+```
+sudo apt install graphviz
+```
+if you are using Ubuntu operating system. Please, refer to [documentation](https://graphviz.org/download/) to understand how to install graphviz on other 
+operating systems. Moreover, if you are experienced user of Windows we strongly recommend you to install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). It will save you loads of time in the future.

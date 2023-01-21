@@ -15,8 +15,9 @@ def draw_graph(edges: pd.DataFrame):
     dot.node(B)
     dot.node(C)
 
-    dot.edge(A, B, label="1 ETH")
-    dot.edge(A, C, label="2 ETH")
+    # Use 4 point precision for graph render
+    dot.edge(A, B, label="1.5432 ETH")
+    dot.edge(A, C, label="2.1232 ETH")
     dot.edge(C, B, label="0.5 ETH")
 
     dot.view()
