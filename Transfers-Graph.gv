@@ -1,0 +1,9 @@
+// Wallet Transfers Graph Representation
+digraph "Transfers-Graph" {
+	"0xa6fac4a7b509d4d103a6c764b72a177e39a0136e"
+	"0x7a250d5630b4cf539739df2c5dacb4c659f2488d"
+	"0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45"
+	"0xa6fac4a7b509d4d103a6c764b72a177e39a0136e" -> "0x7a250d5630b4cf539739df2c5dacb4c659f2488d" [label="1.5432 ETH"]
+	"0xa6fac4a7b509d4d103a6c764b72a177e39a0136e" -> "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" [label="2.1232 ETH"]
+	"0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" -> "0x7a250d5630b4cf539739df2c5dacb4c659f2488d" [label="0.5 ETH"]
+}

@@ -1,11 +1,15 @@
 from clickhouse_driver import Client
 import pandas as pd
+from config import SERVER
 
 
 def get_transactions(
-    clickhouse_url: str, wallet_address: str, n_depth: int, max_neighbours: int
+    wallet_address: str, n_depth: int, max_neighbours: int
 ) -> pd.DataFrame:
-    client = Client.from_url(clickhouse_url)
+    SERVER.start()
+    client = Client.from_url(
+        f"clickhouse://localhost:{SERVER.local_bind_port}/ethereum"
+    )
 
     # YOUR CODE GOES HERE
 
@@ -24,6 +28,10 @@ def get_transactions(
     LIMIT 
         {max_neighbours}
     """
-    df = client.query_dataframe(sql_query)
+    transactions = client.query_dataframe(sql_query)
 
-    return df
+    # YOUR CODE ENDS HERE
+
+    SERVER.close()
+
+    return transactions

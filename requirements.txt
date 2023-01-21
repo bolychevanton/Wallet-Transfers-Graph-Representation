@@ -1,3 +1,5 @@
 clickhouse_driver==0.2.5
 graphviz==0.20.1
+omegaconf==2.3.0
 pandas==1.5.3
+sshtunnel==0.4.0

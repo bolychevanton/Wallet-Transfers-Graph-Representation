@@ -21,13 +21,11 @@ In general, your perfect solution should be able to visualize a graph of transac
 we suggest you to implement the following CLI interface
 ```
 python3 main.py \
---clickhouse-url clickhouse://10.16.68.34:9000/ethereum \
 --wallet-address 0xa6fac4a7b509d4d103a6c764b72a177e39a0136e \
 --depth 2 \
---max-neighbours 10
+--max-neighbours 3 
 ```
 where 
-- `--clickhouse-url` is the url of SQL database we carefully prepared for you to get information from
 - `--wallet-address` is the start wallet which transactions you are going to visualize
 - `--depth` is the number of generations you are going to visualize
 - `--max-neighbours` is the maximum number of neighbours for every vertex. If a vertex has several more that `max-neighbours` neighbours
@@ -37,17 +35,10 @@ The project is fully executable. Run the command above and the code should rende
 
 ## Architecure
 
-Firstly, you need to get the list of transactions to visualize. See [`query.py`](/query.py) for the details. You need to do it
+Firstly, you need to get the list of transactions to visualize. See [`utils/query.py`](/utils/query.py) for the details. You need to do it
 via running the sql query. We prepared short introductory video (`TODO: ADD LINK`) for your quick start. 
 If you want to run sql queries from Python code it is reasonable to use [clickhouse-driver](https://clickhouse-driver.readthedocs.io/en/latest/) 
-library:
-```
-from clickhouse_driver import Client
-clickhouse_url = "clickhouse://10.16.68.34:9000/ethereum"
-client = Client.from_url(clickhouse_url)
-sql_query = "SELECT * from transactions WHERE block_number = 16000000"
-client.execute(sql_query)
-```
+library. See the example of usage in [`utils/query.py`](/utils/query.py).
 
 Then you need to vizualize the graph of extracted transactions. See [`visualize.py`](/visualize.py) for the details. 
 We suggest you to use [graphviz](https://graphviz.org/) for graph visualization. 
