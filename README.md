@@ -33,6 +33,13 @@ then you need to select top `max-neighbours` vertexes with the greatest value of
 
 The project is fully executable. Run the command above and the code should render the example of graph for you.
 
+## What you need exactly to do
+
+You need to query all the transactions with `value > 0` in which `--wallet-address` was either `from_address` or `to_address`. By
+the procedure you derive all the neighbours vertexes for the `--wallet-address`. Then you need to choose top `--max-neighbours` transactions with
+greatest `value` and thus you get the graph with `depth == 1`. So, to derive the graph with `depth == 2` you need to repeat the procedure for all the
+neighbours. To derive the graph with `depth == 3` you need to query all the transactions for the neigbours of the neighbours and so on.
+
 ## Architecure
 
 Firstly, you need to get the list of transactions to visualize. See [`utils/query.py`](/utils/query.py) for the details. You need to do it
