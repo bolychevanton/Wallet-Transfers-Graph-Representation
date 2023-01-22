@@ -36,7 +36,7 @@ The project is fully executable. Run the command above and the code should rende
 ## Architecure
 
 Firstly, you need to get the list of transactions to visualize. See [`utils/query.py`](/utils/query.py) for the details. You need to do it
-via running the sql query. We prepared short introductory video (`TODO: ADD LINK`) for your quick start. 
+via running the sql query. We prepared [introductory video](https://disk.yandex.ru/i/PgzA6KHpTQdTNg) for your quick start. 
 If you want to run sql queries from Python code it is reasonable to use [clickhouse-driver](https://clickhouse-driver.readthedocs.io/en/latest/) 
 library. See the example of usage in [`utils/query.py`](/utils/query.py).
 
